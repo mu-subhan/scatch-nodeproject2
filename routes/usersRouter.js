@@ -1,16 +1,22 @@
 const express = require("express");
-const router = express.Router();
-const {registerUser,loginUser} = require("../controllers/authController")
+const router = express.Router()
+const isLoggedin = require("../middlewares/isLoggedIn");
+const {
+    registerUser,
+    loginUser,
+    logout,
+} = require ("../controllers/authController");
 
-router.get('/',function(req,res){
+router.get("/",function (req,res){
     res.send("it is working");
 });
 
-//  route is users/register  to check on postman
+// route is users/register 
 router.post("/register",registerUser);
 
-// login router
-// you can check thi via route whih is users/login
+// for login users/login 
 router.post("/login",loginUser);
 
-module.exports= router;
+router.get("/logout",logout);
+
+module.exports = router

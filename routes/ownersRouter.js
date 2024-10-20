@@ -17,5 +17,8 @@ if (process.env.NODE_ENV === "development") {
         res.status(201).send("Created owner");
     });
 }
+router.get("/admin",function (req,res){
+    res.send("hey it is working");
+})
 
 module.exports = router;
