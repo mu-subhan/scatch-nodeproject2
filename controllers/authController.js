@@ -65,7 +65,7 @@ module.exports.loginUser = async function (req, res) {
         if (result) {
             let token = genrateToken(user);
             res.cookie("token", token);
-            return res.json({ success: true, message: "Login successful." });
+             return res.redirect("/shop") //json({ success: true, message: "Login successful." });
         } else {
             return res.status(401).json({ success: false, message: "Incorrect password." });
         }

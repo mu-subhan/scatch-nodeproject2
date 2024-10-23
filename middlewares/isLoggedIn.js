@@ -14,8 +14,8 @@ module.exports = async function (req, res, next) {
         
         // Find the user based on the email from the decoded token
         let user = await userModel
-            .findOne({ email: decoded.email })
-            .select("-password"); // Exclude password from the user object
+            .findOne({ email: decoded.email });
+            // .select("password"); // Exclude password from the user object
 
         if (!user) {
             req.flash("error", "User not found.");
