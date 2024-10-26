@@ -28,7 +28,7 @@ app.set("view engine", "ejs");
 
 app.use("/", router); // Main router
 app.use("/owners", ownersRouter);  
-app.use("/users", usersRouter);    console.log("MongoDb connected")
+app.use("/users", usersRouter);   
 
 app.use("/products", productsRouter);
 

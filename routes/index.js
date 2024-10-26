@@ -31,8 +31,8 @@ router.get("/", function (req, res) {
 
 // Route for the shop page with product data
 router.get("/shop", isLoggedin, async function (req, res) {
-    try {// Pass the products array to the shop template
-        // res.render('shop', { products: products });
+    try {
+        
         // Fetch all products from the database
         const products = await product.find();
 
