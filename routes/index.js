@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const isLoggedin = require("../middlewares/isLoggedIn");
-const product= require("../models/product-model")
+const product= require("../models/product-model");
+const { route } = require("./ownersRouter");
+const userModel = require("../models/user-model");
 
 // Hardcoded sample products data (replace with real data if needed)
 const products = [
@@ -35,13 +37,32 @@ router.get("/shop", isLoggedin, async function (req, res) {
         
         // Fetch all products from the database
         const products = await product.find();
-
+   let success = req.flash("success");
         // Pass the products array to the shop template
-        res.render('shop', { products: products });
+        res.render('shop', { products, success });
     } catch (err) {
         console.error("Error fetching products:", err);
         res.status(500).send("Server error");
     }
 });
+
+router.get("/cart",isLoggedin,async function(req,res){
+    let user = await userModel
+    .findOne({email:req.user.email})
+    .populate("cart");
+    res.render("cart",{user});
+})
+
+router.get("/addtocart/:prductid", isLoggedin,async function (req,res) {
+    let user = await userModel.findOne({email:req.user.email})
+    user.cart.push(req.params.productid);
+    await user.save();
+    req.flash("success","Added to cart");
+    res.redirect("/shop")
+    
+})
+router.get("/logout",isLoggedin,function(req,res){
+    res.render("shop")
+})
 
 module.exports = router;
