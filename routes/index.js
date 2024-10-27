@@ -26,7 +26,7 @@ const products = [
 // Route for the homepage
 router.get("/", function (req, res) {
     let error = req.flash("error");
-    res.render("index", { error });
+    res.render("index", { error, loggedin:false });
 });
 
 // Route for the shop page with product data
