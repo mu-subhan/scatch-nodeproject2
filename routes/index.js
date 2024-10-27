@@ -46,14 +46,19 @@ router.get("/shop", isLoggedin, async function (req, res) {
     }
 });
 
-router.get("/cart",isLoggedin,async function(req,res){
-    let user = await userModel
-    .findOne({email:req.user.email})
-    .populate("cart");
-    res.render("cart",{user});
-})
+router.get("/cart", isLoggedin, async function (req, res) {
+    let user = await userModel.findOne({ email: req.user.email }).populate("cart");
 
-router.get("/addtocart/:prductid", isLoggedin,async function (req,res) {
+    // Create an array to hold bill values for each item
+    const bills = user.cart.map(item => {
+        return Number(item.price) + 20 - Number(item.discount);
+    });
+
+    res.render("cart", { user, bills }); // Pass the bills array to the template
+});
+
+
+router.get("/addtocart/:productid", isLoggedin,async function (req,res) {
     let user = await userModel.findOne({email:req.user.email})
     user.cart.push(req.params.productid);
     await user.save();
